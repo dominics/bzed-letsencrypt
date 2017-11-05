@@ -33,16 +33,11 @@
 # Copyright 2016 Bernd Zeimetz
 #
 define letsencrypt::certificate (
-    $domain = $name,
-    $challengetype = $::letsencrypt::challengetype,
-    $letsencrypt_host = $::letsencrypt::letsencrypt_host,
-    $dh_param_size = $::letsencrypt::dh_param_size,
+    String $domain = $name,
+    String $challengetype = $::letsencrypt::challengetype,
+    String $letsencrypt_host = $::letsencrypt::letsencrypt_host,
+    Integer $dh_param_size = $::letsencrypt::dh_param_size,
 ){
-
-    validate_integer($dh_param_size)
-    validate_string($letsencrypt_host)
-    validate_re($challengetype, '^(http-01|dns-01)$')
-    validate_string($domain)
 
     require ::letsencrypt::params
     require ::letsencrypt::setup
