@@ -57,5 +57,7 @@ class letsencrypt::params {
 
     $manage_user = true
     $user = 'letsencrypt'
+
+    $manage_group = true
     $group = 'letsencrypt'
 }

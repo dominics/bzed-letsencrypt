@@ -14,11 +14,13 @@ class letsencrypt::setup (
     $base_dir = $::letsencrypt::params::base_dir,
     $csr_dir = $::letsencrypt::params::csr_dir,
     $crt_dir = $::letsencrypt::params::crt_dir,
-    $key_dir = $::letsencrypt::params::key_dir
+    $key_dir = $::letsencrypt::params::key_dir,
+    $manage_group = $::letsencrypt::params::manage_group,
+    $group = $::letsencrypt::params::group,
 ) inherits ::letsencrypt::params {
 
-    if $::letsencrypt::manage_user {
-        group { $::letsencrypt::group :
+    if $manage_group {
+        group { $group :
             ensure => present,
         }
     }
@@ -26,9 +28,9 @@ class letsencrypt::setup (
     File {
         ensure  => directory,
         owner   => 'root',
-        group   => $::letsencrypt::group,
+        group   => $group,
         mode    => '0755',
-        require => Group[$::letsencrypt::group],
+        require => Group[$group],
     }
 
     file { $base_dir : }

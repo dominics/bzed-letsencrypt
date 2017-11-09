@@ -88,10 +88,21 @@ class letsencrypt (
     $dh_param_size = $::letsencrypt::params::dh_param_size,
     $manage_packages = $::letsencrypt::params::manage_packages,
     $manage_user = $::letsencrypt::params::manage_user,
+    $manage_group = $::letsencrypt::params::manage_group,
     $user = $::letsencrypt::params::user,
     $group = $::letsencrypt::params::group,
+    $base_dir = $::letsencrypt::params::base_dir,
+    $csr_dir = $::letsencrypt::params::csr_dir,
+    $crt_dir = $::letsencrypt::params::crt_dir,
+    $key_dir = $::letsencrypt::params::key_dir,
 ) inherits ::letsencrypt::params {
-    require ::letsencrypt::setup
+    class { '::letsencrypt::setup' :
+        base_dir => $base_dir,
+        csr_dir  => $csr_dir,
+        crt_dir  => $crt_dir,
+        key_dir  => $key_dir,
+        group    => $group;
+    }
 
     if ($::fqdn == $letsencrypt_host) {
         class { '::letsencrypt::setup::puppetmaster' :
