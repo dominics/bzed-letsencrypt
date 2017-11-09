@@ -91,9 +91,7 @@ class letsencrypt (
     $user = $::letsencrypt::params::user,
     $group = $::letsencrypt::params::group,
 ) inherits ::letsencrypt::params {
-
     require ::letsencrypt::setup
-    $letsencrypt_cas = $::letsencrypt::params::letsencrypt_cas
 
     if ($::fqdn == $letsencrypt_host) {
         class { '::letsencrypt::setup::puppetmaster' :
@@ -126,5 +124,4 @@ class letsencrypt (
         challengetype    => $challengetype,
         dh_param_size    => $dh_param_size,
     }
-
 }
