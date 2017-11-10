@@ -91,17 +91,10 @@ class letsencrypt (
     $manage_group = $::letsencrypt::params::manage_group,
     $user = $::letsencrypt::params::user,
     $group = $::letsencrypt::params::group,
-    $base_dir = $::letsencrypt::params::base_dir,
-    $csr_dir = $::letsencrypt::params::csr_dir,
-    $crt_dir = $::letsencrypt::params::crt_dir,
-    $key_dir = $::letsencrypt::params::key_dir,
 ) inherits ::letsencrypt::params {
     class { '::letsencrypt::setup' :
-        base_dir => $base_dir,
-        csr_dir  => $csr_dir,
-        crt_dir  => $crt_dir,
-        key_dir  => $key_dir,
-        group    => $group;
+        manage_group => $manage_group,
+        group        => $group;
     }
 
     if ($::fqdn == $letsencrypt_host) {
