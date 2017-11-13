@@ -49,7 +49,7 @@ define letsencrypt::request::ocsp(
         onlyif  => $ocsp_onlyif,
         user    => $::letsencrypt::user,
         group   => $::letsencrypt::group,
-        require => File[$letsencrypt_ocsp_request],
+        require => [File[$letsencrypt_ocsp_request], File[$crt_chain_file]],
     }
 
     file { $ocsp_file :
