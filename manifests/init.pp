@@ -91,6 +91,7 @@ class letsencrypt (
     $manage_group = $::letsencrypt::params::manage_group,
     $user = $::letsencrypt::params::user,
     $group = $::letsencrypt::params::group,
+    $handler_requests_dir = $::letencrypt::params::handler_requests_dir,
 ) inherits ::letsencrypt::params {
     class { '::letsencrypt::setup' :
         manage_group => $manage_group,
@@ -119,7 +120,9 @@ class letsencrypt (
         }
         if ($::letsencrypt_crts and $::letsencrypt_crts != '') {
             $letsencrypt_crts_array = split($::letsencrypt_crts, ',')
-            ::letsencrypt::request::crt { $letsencrypt_crts_array : }
+            ::letsencrypt::request::crt { $letsencrypt_crts_array:
+                handler_requests_dir => $handler_requests_dir;
+            }
         }
     }
 

@@ -5,12 +5,11 @@
 #
 
 define letsencrypt::request::crt(
-    $domain = $name
+    $domain = $name,
+    $handler_requests_dir
 ) {
+    validate_string($handler_requests_dir)
 
-    require ::letsencrypt::params
-
-    $handler_requests_dir = $::letsencrypt::params::handler_requests_dir
     $base_dir             = "${handler_requests_dir}/${domain}"
     $crt_file             = "${base_dir}/${domain}.crt"
     $ocsp_file            = "${base_dir}/${domain}.crt.ocsp"
