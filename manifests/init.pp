@@ -91,7 +91,7 @@ class letsencrypt (
     $manage_group = $::letsencrypt::params::manage_group,
     $user = $::letsencrypt::params::user,
     $group = $::letsencrypt::params::group,
-    $handler_requests_dir = $::letencrypt::params::handler_requests_dir,
+    $handler_requests_dir = $::letsencrypt::params::handler_requests_dir,
 ) inherits ::letsencrypt::params {
     class { '::letsencrypt::setup' :
         manage_group => $manage_group,
