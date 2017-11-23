@@ -10,9 +10,18 @@ export https_proxy="<%= @letsencrypt_proxy -%>"
 
 if [ $# -lt 3 ]; then exit 255; fi
 
+if [[ ! -f "$1" ]]; then
+  echo "Could not find certificate: $1" >&2
+  exit 2
+fi
+
+if [[ ! -f "$2" ]]; then
+  echo "Could not find certificate chain file: $2" >&2
+  exit 2
+fi
+
 OCSPURL=$(openssl x509 -in "${1}" -noout -text | grep "OCSP - URI:" | cut -d: -f2,3 )
 OCSPHOST=$(echo $OCSPURL | sed 's,^.*://\([^/]*\).*,\1,')
-
 
 <% if @letsencrypt_proxy -%>
 openssl ocsp -noverify -issuer "${2}" \
