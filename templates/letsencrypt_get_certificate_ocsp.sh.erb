@@ -17,7 +17,7 @@ fi
 
 if [[ ! -f "$2" ]]; then
   echo "Could not find certificate chain file: $2" >&2
-  exit 2
+  exit 3
 fi
 
 OCSPURL=$(openssl x509 -in "${1}" -noout -text | grep "OCSP - URI:" | cut -d: -f2,3 )
@@ -33,8 +33,12 @@ openssl ocsp -noverify -issuer "${2}" \
     -cert "${1}" \
     -header "Host=${OCSPHOST}" \
     -url "${OCSPURL}" -respout "${3}.new"
-
 <% end -%>
+
+if [[ ! -f "${3}.new" ]]; then
+  echo "OCSP command failed to output new file: ${3}.new" >&2
+  exit 4
+fi
 
 mv "${3}.new" "${3}"
 
